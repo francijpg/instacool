@@ -8,8 +8,8 @@ function App() {
   return (
     <Container>
       <Card>
-        <Input placeholder="correo" label="correo"/>
-        <Input placeholder="contraseña" label="contraseña"/>
+        <Input placeholder="correo" label="Correo"/>
+        <Input placeholder="contraseña" label="Contraseña"/>
       </Card>
     </Container>
   );
