@@ -18,13 +18,15 @@ const spanStyle ={
 
 interface IInputProps {
   placeholder?: string;
+  label: string;
 }
 
 export default class Input extends Component<IInputProps> {
   render() {
+    const { label } = this.props
     return (
       <div>
-        <span style={spanStyle}>text</span>
+        <span style={spanStyle}>{label}</span>
         <input {...this.props} style={style} />
       </div>
     );
