@@ -9,6 +9,7 @@ function App() {
     <Container>
       <Card>
         <Input placeholder="correo"/>
+        <Input placeholder="contraseña"/>
       </Card>
     </Container>
   );
