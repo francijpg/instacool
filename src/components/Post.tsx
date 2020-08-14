@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
 
 const style = {
@@ -6,9 +7,17 @@ const style = {
   padding: "10px 15px",
 };
 
-export default class Post extends Component {
+interface IPostProps {
+  image: string
+}
+
+export default class Post extends Component<IPostProps> {
   render() {
-    const { children } = this.props;
-    return <div style={style}>{children}</div>;
+    const { image } = this.props
+    return (
+      <div style={style}>
+        <img src={image} />
+      </div>
+    );
   }
 }
