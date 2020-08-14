@@ -1,26 +1,15 @@
 import React from "react";
 import "./App.css";
-import Card from "./components/Card";
-import Container from "./components/Container";
-import Input from "./components/Input";
-import Button from "./components/Button";
-import Title from "./components/Title";
-import Link from "./components/Link";
-import Center from "./components/Center";
+import { Route } from "react-router";
+import Login from "./containers/Auth/Login";
+import Register from "./containers/Auth/Register";
 
 function App() {
   return (
-    <Container>
-      <Card>
-        <Title>Iniciar sesión</Title>
-        <Input placeholder="correo" label="Correo" />
-        <Input placeholder="contraseña" label="Contraseña" />
-        <Button block={true}>Enviar</Button>
-        <Center>
-          <Link>Ir al registro</Link>
-        </Center>
-      </Card>
-    </Container>
+    <div>
+      <Route exact={true} path="/" component={Login} />
+      <Route exact={true} path="/register" component={Register} />
+    </div>
   );
 }
 
