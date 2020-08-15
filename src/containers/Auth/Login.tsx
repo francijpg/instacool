@@ -11,7 +11,7 @@ import Center from "../../components/Center";
 export default class Login extends Component {
   render() {
     return (
-      <Container>
+      <Container center={true}>
         <Card>
           <Title>Iniciar sesión</Title>
           <Input placeholder="correo" label="Correo" />
