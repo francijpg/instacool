@@ -9,7 +9,7 @@ const style = {
   marginBottom: "10px",
 };
 
-const spanStyle ={
+const spanStyle = {
   color: "#777",
   fontSize: '10px',
   textTransform: 'uppercase',
