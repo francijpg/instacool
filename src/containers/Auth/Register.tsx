@@ -11,7 +11,7 @@ import Center from "../../components/Center";
 export default class Register extends Component {
   render() {
     return (
-      <Container>
+      <Container center={true}>
         <Card>
           <Title>Registro</Title>
           <Input placeholder="correo" label="Correo" />
