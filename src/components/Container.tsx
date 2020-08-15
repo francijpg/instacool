@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, CSSProperties } from "react";
 
 const style = (center: boolean) => ({
   backgroundColor: "#eee",
@@ -9,7 +9,8 @@ const style = (center: boolean) => ({
   display: "flex",
   justifyContent: center ? "center" : undefined,
   alignItems: center ? "center" : undefined,
-});
+  flexDirection: 'column',//vertical post position
+}) as CSSProperties;
 
 interface IContainer {
   center?: boolean
