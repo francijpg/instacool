@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 
-const style = {
+const style = (center: boolean) => ({
   backgroundColor: "#eee",
-  padding: "10px 15px",//margin top - margin left and  rigth
+  padding: "10px 15px", //margin top - margin left and  rigth
   height: "calc(100vh - 20px)",
   width: "calc(100vw - 30px)",
-  //flexbox
+  //flexbox:
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
+  justifyContent: center ? "center" : undefined,
+  alignItems: center ? "center" : undefined,
+});
 
-export default class Container extends Component {
+interface IContainer {
+  center?: boolean
+}
+
+export default class Container extends Component<IContainer> {
   render() {
-    const { children } = this.props;
-    return <div style={style}>{children}</div>;
+    const { children, center = false } = this.props;
+    return <div style={style(center)}>{children}</div>;
   }
 }
