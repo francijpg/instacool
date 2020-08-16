@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Profileimg from "../../components/Profileimg";
+import ProfileImg from "../../components/ProfileImg";
 
 const style = {
   container: {
@@ -10,7 +10,7 @@ export default class Profile extends Component {
   render() {
     return (
       <div style={style.container}>
-        <Profileimg />
+        <ProfileImg />
       </div>
     );
   }
