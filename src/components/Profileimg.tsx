@@ -6,7 +6,7 @@ const style = {
   },
 };
 
-export default class Profileimg extends Component {
+export default class ProfileImg extends Component {
   render() {
     return (
       <div>
