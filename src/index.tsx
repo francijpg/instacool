@@ -6,12 +6,13 @@ import * as serviceWorker from "./serviceWorker";
 import { Router } from "react-router";
 import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import * as reducers from "./ducks";
+import thunk from "redux-thunk";
 
 const store = createStore(combineReducers({
   ...reducers
-}))
+}), applyMiddleware(thunk))
 const history = createBrowserHistory();
 
 ReactDOM.render(
