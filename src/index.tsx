@@ -5,13 +5,22 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Router } from "react-router";
 import { createBrowserHistory } from "history";
+import { Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+import * as reducers from "./ducks";
 
+const store = createStore(combineReducers({
+  ...reducers
+}))
 const history = createBrowserHistory();
+
 ReactDOM.render(
   <React.StrictMode>
-    <Router history={history}>
-      <App />
-    </Router>
+    <Provider store={store}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
