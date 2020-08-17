@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { IServices } from "../services";
 
-interface ILogin {
+export interface ILogin {
   email: string
   password: string
 }
