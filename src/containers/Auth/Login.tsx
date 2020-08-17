@@ -4,16 +4,22 @@ import Card from "../../components/Card";
 import Container from "../../components/Container";
 import Title from "../../components/Title";
 import LoginForm from "../../components/LoginForm";
+import { ThunkDispatch } from 'redux-thunk';
 
-import { login as loginThunk } from "../../ducks/Users";
+import { login as loginThunk, ILogin } from "../../ducks/Users";
 
-class Login extends Component {
+interface  ILoginProps {
+  login: (a: ILogin) => void
+}
+
+class Login extends Component<ILoginProps> {
   render() {
+    const { login } = this.props
     return (
       <Container center={true}>
         <Card>
           <Title>Iniciar sesión</Title>
-          <LoginForm />
+          <LoginForm onSubmit={login} />
         </Card>
       </Container>
     );
@@ -22,7 +28,7 @@ class Login extends Component {
 
 const mapStateToProps = (state: any) => state
 
-const mapDispatchToProps = (dispatch: any)  => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch <any, any, any>)=>({
   login: (payload: any) => dispatch(loginThunk(payload))
 })
 
