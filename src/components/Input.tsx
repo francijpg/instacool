@@ -1,4 +1,4 @@
-import React, { Component, CSSProperties } from "react";
+import React, { CSSProperties, StatelessComponent } from "react";
 
 const style = {
   backgroundColor: "#fff",
@@ -21,14 +21,14 @@ interface IInputProps {
   label: string;
 }
 
-export default class Input extends Component<IInputProps> {
-  render() {
-    const { label } = this.props
+const Input: StatelessComponent<IInputProps> = (props: IInputProps) => {
+  const { label } = props
     return (
       <div>
         <span style={spanStyle}>{label}</span>
-        <input {...this.props} style={style} />
+        <input {...props} style={style} />
       </div>
     );
-  }
 }
+
+export default Input
