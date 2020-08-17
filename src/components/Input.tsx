@@ -1,34 +1,37 @@
-import React, { CSSProperties, StatelessComponent } from "react";
+import * as React from "react";
+import { WrappedFieldProps } from "redux-form";
 
 const style = {
   backgroundColor: "#fff",
   border: "1px solid #ddd",
-  padding: "10px 15px",
   borderRadius: "4px",
-  width: "calc(100% - 30px)", //for to stack content, (input width - left/right(15px) padding)
   marginBottom: "10px",
+  padding: "10px 15px",
+  width: "calc(100% - 30px)",
 };
 
 const spanStyle = {
   color: "#777",
-  fontSize: '10px',
-  textTransform: 'uppercase',
+  fontSize: "10px",
   fontWeight: 900,
-} as CSSProperties
+  textTransform: "uppercase",
+} as React.CSSProperties;
 
 interface IInputProps {
   placeholder?: string;
   label: string;
 }
 
-const Input: StatelessComponent<IInputProps> = (props: IInputProps) => {
-  const { label } = props
-    return (
-      <div>
-        <span style={spanStyle}>{label}</span>
-        <input {...props} style={style} />
-      </div>
-    );
-}
+const Input: React.StatelessComponent<WrappedFieldProps & IInputProps> = (
+  props
+) => {
+  const { label } = props;
+  return (
+    <div>
+      <span style={spanStyle}>{label}</span>
+      <input {...props} {...props.input} style={style} />
+    </div>
+  );
+};
 
-export default Input
+export default Input;
