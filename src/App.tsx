@@ -23,7 +23,8 @@ class App extends React.Component<IAppProps> {
       if (user) {
         // eslint-disable-next-line no-restricted-globals
         if (["/", "/register"].indexOf(location.pathname) > -1) {
-          console.log(this.props);
+          const { history } = this.props;
+          history.push("/app/newsfeed");
         }
       }
 
