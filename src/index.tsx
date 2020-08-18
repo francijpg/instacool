@@ -12,20 +12,21 @@ import thunk from "redux-thunk";
 import services from "./services";
 import { reducer as formReducer } from "redux-form";
 
-const store = createStore(combineReducers({
-  ...reducers,
-  form: formReducer,
-}), applyMiddleware(thunk.withExtraArgument(services)))
+const store = createStore(
+  combineReducers({
+    ...reducers,
+    form: formReducer,
+  }),
+  applyMiddleware(thunk.withExtraArgument(services))
+);
 const history = createBrowserHistory();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Router history={history}>
-        <App history={history}/>
-      </Router>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <Router history={history}>
+      <App history={history} />
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
 
