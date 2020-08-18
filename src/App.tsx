@@ -9,7 +9,10 @@ import Navbar from "./components/Navbar";
 import Profile from "./containers/Profile";
 import services from "./services";
 
-class App extends React.Component {
+interface IAppProps {
+  history: any;
+}
+class App extends React.Component<IAppProps> {
   state = {
     loading: true,
   };
@@ -17,6 +20,13 @@ class App extends React.Component {
   componentDidMount() {
     const { auth } = services;
     auth.onAuthStateChanged((user) => {
+      if (user) {
+        // eslint-disable-next-line no-restricted-globals
+        if (["/", "/register"].indexOf(location.pathname) > -1) {
+          console.log(this.props);
+        }
+      }
+
       console.log(user);
       this.setState({
         loading: false,
