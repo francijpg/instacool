@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
+import { History } from "history";
 
 import Login from "./containers/Auth/Login";
 import Register from "./containers/Auth/Register";
@@ -10,7 +11,7 @@ import Profile from "./containers/Profile";
 import services from "./services";
 
 interface IAppProps {
-  history: any;
+  history: History;
 }
 class App extends React.Component<IAppProps> {
   public state = {
