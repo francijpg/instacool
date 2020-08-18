@@ -35,7 +35,6 @@ class App extends React.Component<IAppProps> {
         }
       }
 
-      console.log(user);
       this.setState({
         loading: false,
       });
