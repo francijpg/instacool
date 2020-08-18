@@ -4,15 +4,32 @@ import Container from "../../components/Container";
 import Title from "../../components/Title";
 import RegisterForm from "../../components/RegisterForm";
 
-export default class Register extends Component {
+import { ThunkDispatch } from "redux-thunk";
+import { connect } from "react-redux";
+import { register as registerThunk, ILogin } from "../../ducks/Users";
+
+interface  IRegisterProps {
+  register: (a: ILogin) => void
+}
+
+class Register extends Component<IRegisterProps> {
   render() {
+    const { register } = this.props
     return (
       <Container center={true}>
         <Card>
           <Title>Registro</Title>
-          <RegisterForm />
+          <RegisterForm onSubmit={register}/>
         </Card>
       </Container>
     );
   }
 }
+
+const mapStateToProps = (state: any) => state
+
+const mapDispatchToProps = (dispatch: ThunkDispatch <any, any, any>)=>({
+  register: (payload: any) => dispatch(registerThunk(payload))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
