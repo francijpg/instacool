@@ -15,7 +15,7 @@ interface IButtonProps {
 }
 export default class Button extends Component<IButtonProps> {
   render() {
-    const { block = false } = this.props;
-    return <button {...this.props} style={style(block)} />;
+    const { block = false, ...otherProps } = this.props;
+    return <button {...otherProps} style={style(block)} />;
   }
 }
