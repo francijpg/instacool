@@ -13,11 +13,11 @@ interface IAppProps {
   history: any;
 }
 class App extends React.Component<IAppProps> {
-  state = {
+  public state = {
     loading: true,
   };
 
-  componentDidMount() {
+  public componentDidMount() {
     const { auth } = services;
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -25,6 +25,12 @@ class App extends React.Component<IAppProps> {
         if (["/", "/register"].indexOf(location.pathname) > -1) {
           const { history } = this.props;
           history.push("/app/newsfeed");
+        } else {
+          // eslint-disable-next-line
+          if (/\app\/./.test(location.pathname)) {
+            const { history } = this.props;
+            history.push("/");
+          }
         }
       }
 
@@ -35,7 +41,7 @@ class App extends React.Component<IAppProps> {
     });
   }
 
-  render() {
+  public render() {
     const { loading } = this.state;
     return loading ? (
       "loading"
