@@ -12,7 +12,7 @@ class RegisterForm extends Component<InjectedFormProps> {
     return (
       <form onSubmit={handleSubmit}>
         <Field label='Correo' placeholder='Correo' name='email' type='email' component={Input}  />
-        <Field label='Contraseña' placeholder='Contraseña' name='password' type='password' component={Input}  />
+        <Field label='Contraseña' placeholder='Contraseña' name='password' type='password' autoComplete="on" component={Input}  />
         <Button block={true}>Enviar</Button>
         <Center>
           <Link to="/">Iniciar sesión</Link>
