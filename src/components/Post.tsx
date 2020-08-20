@@ -18,7 +18,7 @@ export default class Post extends Component<IPostProps> {
     const { image } = this.props;
     return (
       <div style={style}>
-        <img src={image} />
+        <img style={{ width: "300px" }} src={image} />
         <Footer />
       </div>
     );
