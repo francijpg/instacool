@@ -1,5 +1,6 @@
 import { AnyAction, Dispatch } from "redux"
 import { IServices } from "../services"
+import { firestore } from 'firebase';
 
 // action types
 const START = 'posts/fetch-start'
@@ -10,7 +11,7 @@ const ERROR = 'posts/fetch-error'
 const fetchStart = () => ({
   type: START,
 })
-const fetchSuccess = (payload: any) => ({
+const fetchSuccess = (payload: IPost) => ({
   payload,
   type: SUCCESS,
 })
@@ -18,6 +19,14 @@ const fetchError = (error: Error) => ({
   error,
   type: ERROR,
 })
+
+export interface IPost {
+  [key: string]: {
+    comment: string
+    userId: string
+    createdAt: firestore.Timestamp
+  }
+}
 
 // reducer initial state
 const initialState = {
