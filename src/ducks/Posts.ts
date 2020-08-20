@@ -1,4 +1,5 @@
-import { AnyAction } from "redux"
+import { AnyAction, Dispatch } from "redux"
+import { IServices } from "../services"
 
 // action types
 const START = 'posts/fetch-start'
@@ -26,5 +27,42 @@ const initialState = {
 }
 
 export default function reducer(state = initialState, action: AnyAction) {
-  return state
+  switch (action.type) {
+    case START:
+      return {
+        ...state,
+        fetching: true,
+      }
+    case SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        fetched: true,
+        fetching: false,
+      }
+
+    case ERROR:
+      return {
+        ...state,
+        error: action.error,
+        fetching: false,
+      }
+    default:
+      return state
+  }
 }
+
+// create first thunk
+export const fetchPosts = () =>
+  async (dispatch: Dispatch, getState: () => any, { db }: IServices) => {
+    dispatch(fetchStart())
+    try {
+      const snaps = await db.collection('posts').get()
+      const posts: any = {}
+      snaps.forEach(x => posts[x.id] = x.data())
+      dispatch(fetchSuccess(posts))
+    } catch (e) {
+      dispatch(fetchError(e))
+    }
+  }
+
