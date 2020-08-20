@@ -10,6 +10,7 @@ interface INewsFeedProps {
   fetchPosts: () => void;
   fetched: boolean;
   loading: boolean;
+  data: postDuck.IPost;
 }
 
 class NewsFeed extends Component<INewsFeedProps> {
@@ -23,14 +24,17 @@ class NewsFeed extends Component<INewsFeedProps> {
   }
   render() {
     console.log(this.props);
+    const { data } = this.props;
     return (
       <Container>
-        <div style={{ margin: "0 auto" }}>
-          <Post image={"http://placekitten.com/300/200"} />
-        </div>
-        <div style={{ margin: "0 auto" }}>
-          <Post image={"http://placekitten.com/300/200"} />
-        </div>
+        {Object.keys(data).map((x) => {
+          const post = data[x];
+          return (
+            <div key={x} style={{ margin: "0 auto" }}>
+              <Post image={post.imageURL} />
+            </div>
+          );
+        })}
       </Container>
     );
   }
