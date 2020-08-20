@@ -21,17 +21,18 @@ class App extends React.Component<IAppProps> {
   public componentDidMount() {
     const { auth } = services;
     auth.onAuthStateChanged((user) => {
+      console.log(user);
       if (user) {
-        // eslint-disable-next-line no-restricted-globals
-        if (["/", "/register"].indexOf(location.pathname) > -1) {
+        if (["/", "/register"].indexOf(window.location.pathname) > -1) {
           const { history } = this.props;
-          history.push("/app/newsfeed");
-        } else {
-          // eslint-disable-next-line
-          if (/\app\/./.test(location.pathname)) {
-            const { history } = this.props;
-            history.push("/");
-          }
+          console.log(history);
+          this.props.history.push("/app/newsfeed");
+        }
+      } else {
+        // eslint-disable-next-line
+        if (/\app\/./.test(location.pathname)) {
+          const { history } = this.props;
+          history.push("/");
         }
       }
 
