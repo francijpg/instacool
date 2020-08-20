@@ -6,9 +6,15 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as postDuck from "../../ducks/Posts";
 
-class NewsFeed extends Component {
+interface INewsFeedProps {
+  fetchPosts: () => void;
+  fetched: boolean;
+  loading: boolean;
+}
+
+class NewsFeed extends Component<INewsFeedProps> {
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <Container>
         <div style={{ margin: "0 auto" }}>
@@ -23,7 +29,16 @@ class NewsFeed extends Component {
 }
 
 const mapStateToProps = (state: any) => {
-  return state;
+  const {
+    Posts: { data, fetched, fetching },
+  } = state;
+  const loading = fetching || !fetched;
+
+  return {
+    data,
+    fetched,
+    loading,
+  };
 };
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) =>
   bindActionCreators(postDuck, dispatch);
