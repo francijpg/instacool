@@ -26,7 +26,7 @@ class App extends React.Component<IAppProps> {
         if (["/", "/register"].indexOf(window.location.pathname) > -1) {
           const { history } = this.props;
           console.log(history);
-          this.props.history.push("/app/newsfeed");
+          history.push("/app/newsfeed");
         }
       } else {
         // eslint-disable-next-line
