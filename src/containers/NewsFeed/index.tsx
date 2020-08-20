@@ -13,6 +13,14 @@ interface INewsFeedProps {
 }
 
 class NewsFeed extends Component<INewsFeedProps> {
+  constructor(props: INewsFeedProps) {
+    super(props);
+    const { fetchPosts, fetched } = props;
+    if (fetched) {
+      return;
+    }
+    fetchPosts();
+  }
   render() {
     console.log(this.props);
     return (
