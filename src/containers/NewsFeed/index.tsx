@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import Post from "../../components/Post";
 import Container from "../../components/Container";
+import { ThunkDispatch } from "redux-thunk";
+import { connect } from "react-redux";
 
-export default class NewsFeed extends Component {
+class NewsFeed extends Component {
   render() {
     return (
       <Container>
@@ -16,3 +18,10 @@ export default class NewsFeed extends Component {
     );
   }
 }
+
+const mapStateToProps = (state : any) => {
+  return state
+}
+const mapDispatchToProps = (dispatch: ThunkDispatch<any,any,any>) => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsFeed)
