@@ -25,6 +25,7 @@ export interface IPost {
     comment: string
     userId: string
     createdAt: firestore.Timestamp
+    imageURL: string
   }
 }
 
@@ -63,12 +64,27 @@ export default function reducer(state = initialState, action: AnyAction) {
 
 // create first thunk
 export const fetchPosts = () =>
-  async (dispatch: Dispatch, getState: () => any, { db }: IServices) => {
+  async (dispatch: Dispatch, getState: () => any, { db, storage }: IServices) => {
     dispatch(fetchStart())
     try {
       const snaps = await db.collection('posts').get()
       const posts: any = {}
       snaps.forEach(x => posts[x.id] = x.data())
+
+      const imgIds = await Promise.all(Object.keys(posts).map(async x => {
+        const ref = storage.ref(`posts/${x}.jpg`)
+        const url = await ref.getDownloadURL()
+        return [x, url]
+      }))
+
+      const keyedImages: any = {}
+      imgIds.forEach(x => keyedImages[x[0]] = x[1])
+
+      Object.keys(posts).forEach(x => posts[x] = {
+        ...posts[x],
+        imageURL: keyedImages[x],
+      })
+
       dispatch(fetchSuccess(posts))
     } catch (e) {
       dispatch(fetchError(e))
