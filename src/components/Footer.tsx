@@ -19,14 +19,21 @@ const style = {
   } as CSSProperties,
 };
 
-export default class Footer extends Component {
+interface IFooterProps {
+  like: () => void;
+  share: () => void;
+}
+
+export default class Footer extends Component<IFooterProps> {
   render() {
+    const {like, share} = this.props
+
     return (
       <div style={style.footer}>
-        <div style={style.button}>
+        <div onClick={like} style={style.button}>
           <FontAwesomeIcon icon={faThumbsUp} /> Like
         </div>
-        <div style={style.button}>
+        <div onClick={share} style={style.button}>
           <FontAwesomeIcon icon={faRetweet} /> Compartir
         </div>
       </div>
