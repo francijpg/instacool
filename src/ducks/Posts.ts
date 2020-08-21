@@ -91,3 +91,12 @@ export const fetchPosts = () =>
     }
   }
 
+export const like = (id: string) =>
+  async (dispatch: Dispatch, getState: () => any, { auth }: IServices) => {
+    console.log(id)
+  }
+
+export const share = (id: string) =>
+  async (dispatch: Dispatch, getState: () => any, { auth }: IServices) => {
+    console.log(id)
+  }
