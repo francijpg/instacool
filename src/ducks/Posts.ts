@@ -97,13 +97,11 @@ export const like = (id: string) =>
       return
     }
     const token = await auth.currentUser.getIdToken()
-    const result = await fetch("/api/posts", {
+    await fetch(`/api/posts/${id}/like`, {
       headers: {
         authorization: token
       }
     })
-    const text = await result.text()
-    console.log(text)
   }
 
 export const share = (id: string) =>
