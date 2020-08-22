@@ -6,6 +6,7 @@ import { firestore } from 'firebase';
 const START = 'posts/fetch-start'
 const SUCCESS = 'posts/fetch-success'
 const ERROR = 'posts/fetch-error'
+const ADD = 'posts/add'
 
 // action creators
 const fetchStart = () => ({
@@ -18,6 +19,10 @@ const fetchSuccess = (payload: IPost) => ({
 const fetchError = (error: Error) => ({
   error,
   type: ERROR,
+})
+const add = (payload: IDataPosts) => ({
+  payload,
+  type: ADD,
 })
 
 export interface IPost {
@@ -50,12 +55,19 @@ export default function reducer(state = initialState, action: AnyAction) {
         fetched: true,
         fetching: false,
       }
-
     case ERROR:
       return {
         ...state,
         error: action.error,
         fetching: false,
+      }
+    case ADD:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...action.payload,
+        }
       }
     default:
       return state
