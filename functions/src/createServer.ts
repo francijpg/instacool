@@ -14,11 +14,12 @@ admin.initializeApp({
 })
 
 const db = admin.firestore()
-db.settings( {timestampsInSnapshots: true} )
+db.settings({ timestampsInSnapshots: true })
 const auth = admin.auth()
 
 export default () => {
   const app = express()
+
   app.use(async (req: any, res, next) => {
     const token = req.headers.authorization
     try {
@@ -37,6 +38,7 @@ export default () => {
       res.status(403).send("Error en la autorización")
     }
   })
+
   app.get("/posts/:postId/like", async (req: IRequest, res: any) => {
     const { uid } = req.user
     const { postId } = req.params
@@ -58,6 +60,19 @@ export default () => {
       })
     }
     res.sendStatus(204)
+  })
+
+  app.get('/posts/:postId/share', async (req: IRequest, res: any) => {
+    const { uid } = req.user
+    const { postId } = req.params
+    const snap = await db.collection('posts').doc(postId).get()
+    const post = snap.data()
+    const result = await db.collection('posts').add({
+      ...post,
+      userId: uid,
+      createdAt: new Date(),
+    })
+    res.send({ id: result.id })
   })
 
 
