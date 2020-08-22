@@ -106,5 +106,13 @@ export const like = (id: string) =>
 
 export const share = (id: string) =>
   async (dispatch: Dispatch, getState: () => any, { auth }: IServices) => {
-    console.log(id)
+    if (!auth.currentUser) {
+      return
+    }
+    const token = await auth.currentUser.getIdToken()
+    await fetch(`/api/posts/${id}/share`, {
+      headers: {
+        authorization: token
+      }
+    })
   }
