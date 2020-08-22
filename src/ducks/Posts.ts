@@ -20,7 +20,7 @@ const fetchError = (error: Error) => ({
   error,
   type: ERROR,
 })
-const add = (payload: IDataPosts) => ({
+const add = (payload: IPost) => ({
   payload,
   type: ADD,
 })
@@ -117,14 +117,21 @@ export const like = (id: string) =>
   }
 
 export const share = (id: string) =>
-  async (dispatch: Dispatch, getState: () => any, { auth }: IServices) => {
+  async (dispatch: Dispatch, getState: () => any, { auth, db,  }: IServices) => {
     if (!auth.currentUser) {
       return
     }
     const token = await auth.currentUser.getIdToken()
-    await fetch(`/api/posts/${id}/share`, {
+    const result = await fetch(`/api/posts/${id}/share`, {
       headers: {
         authorization: token
       }
     })
+    const { id: postId }: { id: string } = await result.json()
+    const snap = await db.collection('posts').doc(postId).get()
+    dispatch(add({
+      [snap.id]: {
+          ...snap.data()
+      }
+  } as IPost)) 
   }
