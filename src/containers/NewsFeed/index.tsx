@@ -57,9 +57,7 @@ class NewsFeed extends Component<INewsFeedProps> {
 }
 
 const mapStateToProps = (state: any) => {
-  const {
-    Posts: { data, fetched, fetching },
-  } = state;
+  const { Posts: { data, fetched, fetching }, } = state;
   const loading = fetching || !fetched;
 
   return {
