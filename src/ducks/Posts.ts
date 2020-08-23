@@ -1,6 +1,7 @@
 import { AnyAction, Dispatch } from "redux"
 import { IServices } from "../services"
 import { firestore } from 'firebase';
+import * as utils from '../utils';
 
 // action types
 const START = 'posts/fetch-start'
@@ -117,7 +118,7 @@ export const like = (id: string) =>
   }
 
 export const share = (id: string) =>
-  async (dispatch: Dispatch, getState: () => any, { auth, db,  }: IServices) => {
+  async (dispatch: Dispatch, getState: () => any, { auth, db, storage }: IServices) => {
     if (!auth.currentUser) {
       return
     }
@@ -127,11 +128,22 @@ export const share = (id: string) =>
         authorization: token
       }
     })
+    //Get document using firestore
     const { id: postId }: { id: string } = await result.json()
     const snap = await db.collection('posts').doc(postId).get()
+
+    //Get image using storage
+    const url = await storage.ref(`posts/${id}.jpg`).getDownloadURL()
+    const blob: any = await utils.download(url)
+    const ref = storage.ref(`posts/${postId}.jpg`)
+    await ref.put(blob)
+    const imageURL = await ref.getDownloadURL()
+    
+    //Upload image again (from cliente)
     dispatch(add({
       [snap.id]: {
-          ...snap.data()
+        ...snap.data(),
+        imageURL,
       }
-  } as IPost)) 
+    } as IPost))
   }
