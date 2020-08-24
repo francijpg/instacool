@@ -25,7 +25,7 @@ interface IProfileProps {
   fetchPosts: () => void;
   fetched: boolean;
   loading: boolean;
-  data: postDuck.IPost;
+  data: postDuck.IDataPosts;
 }
 
 class Profile extends Component<IProfileProps> {
