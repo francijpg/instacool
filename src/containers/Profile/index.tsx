@@ -20,6 +20,9 @@ const style = {
     justifyContent: "space-between", //add 100% spaces beetween all element contend (profile and button), good for work with columns
     marginBottom: "10px",
   },
+  img: {
+    width: '100px',
+  },
 };
 
 interface IProfileProps {
@@ -51,7 +54,8 @@ class Profile extends Component<IProfileProps> {
         {data.map( (x, i) =>         
           <div key={i} style={style.row}> 
             {x.map(y => 
-            <Card key={y.imageURL}><img src={y.imageURL} /></Card>)} 
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <Card key={y.imageURL}><img style={style.img} src={y.imageURL} /></Card>)} 
           </div>
         )}
       </div>
