@@ -6,6 +6,9 @@ import * as postDuck from "../../ducks/Posts";
 import { ThunkDispatch } from "redux-thunk";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import services from '../../services'
+
+const { auth } = services   
 
 const style = {
   container: {
@@ -60,6 +63,8 @@ class Profile extends Component<IProfileProps> {
 const mapStateToProps = (state: any) => {
   const { Posts: { data, fetched, fetching }, } = state;
   const loading = fetching || !fetched;
+
+  console.log(auth.currentUser && auth.currentUser.uid)
 
   return {
     data,
