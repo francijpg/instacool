@@ -48,28 +48,12 @@ class Profile extends Component<IProfileProps> {
           <ProfileImg />
           <Button>Agregar</Button>
         </div>
-        <div style={style.row}>
-          <Card>
-            <img src="http://placekitten.com/100/100" alt="" />
-          </Card>
-          <Card>
-            <img src="http://placekitten.com/100/100" alt="" />
-          </Card>
-          <Card>
-            <img src="http://placekitten.com/100/100" alt="" />
-          </Card>
-        </div>
-        <div style={style.row}>
-          <Card>
-            <img src="http://placekitten.com/100/100" alt="" />
-          </Card>
-          <Card>
-            <img src="http://placekitten.com/100/100" alt="" />
-          </Card>
-          <Card>
-            <img src="http://placekitten.com/100/100" alt="" />
-          </Card>
-        </div>
+        {data.map( (x, i) =>         
+          <div key={i} style={style.row}> 
+            {x.map(y => 
+            <Card key={y.imageURL}><img src={y.imageURL} /></Card>)} 
+          </div>
+        )}
       </div>
     );
   }
