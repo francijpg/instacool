@@ -19,8 +19,14 @@ const RenderField: React.StatelessComponent<WrappedFieldProps> = ({
   input,
 }) => (
   <div>
-    <input {...input} style={style.file} type="file" />
-    <img style={style.img} src="http://placekitten.com/100/100" alt="profile" />
+    <input {...input} style={style.file} type="file" id="profileImage"/>
+    <label htmlFor="profileImage">
+      <img
+        style={style.img}
+        src="http://placekitten.com/100/100"
+        alt="profile"
+      />
+    </label>
   </div>
 );
 
