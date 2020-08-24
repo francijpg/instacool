@@ -21,11 +21,9 @@ class App extends React.Component<IAppProps> {
   public componentDidMount() {
     const { auth } = services;
     auth.onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         if (["/", "/register"].indexOf(window.location.pathname) > -1) {
           const { history } = this.props;
-          console.log(history);
           history.push("/app/newsfeed");
         }
       } else {
