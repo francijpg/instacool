@@ -3,6 +3,18 @@ import { IServices } from "../services"
 import { firestore } from 'firebase';
 import * as utils from '../utils';
 
+// interfaces
+export interface IPost{
+  comment: string
+  userId: string
+  createdAt: firestore.Timestamp
+  imageURL: string
+}
+
+export interface IDataPosts {
+  [key: string]: IPost
+}
+
 // action types
 const START = 'posts/fetch-start'
 const SUCCESS = 'posts/fetch-success'
@@ -25,15 +37,6 @@ const add = (payload: IDataPosts) => ({
   payload,
   type: ADD,
 })
-
-export interface IDataPosts {
-  [key: string]: {
-    comment: string
-    userId: string
-    createdAt: firestore.Timestamp
-    imageURL: string
-  }
-}
 
 // reducer initial state
 const initialState = {
