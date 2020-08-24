@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import ProfileImg from "../../components/ProfileImg";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
+import * as postDuck from "../../ducks/Posts";
+import { ThunkDispatch } from "redux-thunk";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 const style = {
   container: {
@@ -13,7 +17,24 @@ const style = {
     marginBottom: "10px",
   },
 };
-export default class Profile extends Component {
+
+interface IProfileProps {
+  fetchPosts: () => void;
+  fetched: boolean;
+  loading: boolean;
+  data: postDuck.IPost;
+}
+
+class Profile extends Component<IProfileProps> {
+  constructor(props: IProfileProps) {
+    super(props);
+    const { fetchPosts, fetched } = props;
+    if (fetched) {
+      return;
+    }
+    fetchPosts();
+  }
+
   render() {
     return (
       <div style={style.container}>
@@ -35,3 +56,18 @@ export default class Profile extends Component {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  const { Posts: { data, fetched, fetching }, } = state;
+  const loading = fetching || !fetched;
+
+  return {
+    data,
+    fetched,
+    loading,
+  };
+};
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) =>
+  bindActionCreators(postDuck, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
