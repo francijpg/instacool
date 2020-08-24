@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { reduxForm, InjectedFormProps } from 'redux-form';
 
 const style = {
   img: {
@@ -6,12 +7,16 @@ const style = {
   },
 };
 
-export default class ProfileImg extends Component {
+class ProfileImg extends Component<InjectedFormProps> {
   render() {
     return (
-      <div>
+      <form>
         <img style={style.img} src="http://placekitten.com/100/100" alt="profile"/>
-      </div>
+      </form>
     )
   }
 }
+
+export default reduxForm({
+  form: 'profileImg'
+})(ProfileImg)
