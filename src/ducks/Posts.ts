@@ -13,7 +13,7 @@ const ADD = 'posts/add'
 const fetchStart = () => ({
   type: START,
 })
-const fetchSuccess = (payload: IPost) => ({
+const fetchSuccess = (payload: IDataPosts) => ({
   payload,
   type: SUCCESS,
 })
@@ -21,12 +21,12 @@ const fetchError = (error: Error) => ({
   error,
   type: ERROR,
 })
-const add = (payload: IPost) => ({
+const add = (payload: IDataPosts) => ({
   payload,
   type: ADD,
 })
 
-export interface IPost {
+export interface IDataPosts {
   [key: string]: {
     comment: string
     userId: string
@@ -145,5 +145,5 @@ export const share = (id: string) =>
         ...snap.data(),
         imageURL,
       }
-    } as IPost))
+    } as IDataPosts))
   }
