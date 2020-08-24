@@ -7,6 +7,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import services from "../../services";
+import { chunk } from 'lodash';
 
 const { auth } = services;
 
@@ -25,7 +26,7 @@ interface IProfileProps {
   fetchPosts: () => void;
   fetched: boolean;
   loading: boolean;
-  data: postDuck.IPost[];
+  data: postDuck.IPost[][];
 }
 
 class Profile extends Component<IProfileProps> {
@@ -39,6 +40,8 @@ class Profile extends Component<IProfileProps> {
   }
 
   render() {
+    const { data } = this.props
+    console.log(data)
     return (
       <div style={style.container}>
         <div style={style.row}>
@@ -86,7 +89,7 @@ const mapStateToProps = (state: any) => {
   }, [] as postDuck.IPost[]);
 
   return {
-    data: filtered,
+    data: chunk (filtered, 3),
     fetched,
     loading,
   };
