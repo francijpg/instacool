@@ -10,7 +10,7 @@ interface INewsFeedProps {
   fetchPosts: () => void;
   fetched: boolean;
   loading: boolean;
-  data: postDuck.IPost;
+  data: postDuck.IDataPosts;
   like: (a: string) => void;
   share: (a: string) => void;
 }
