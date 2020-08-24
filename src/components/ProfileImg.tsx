@@ -1,27 +1,35 @@
 import React, { Component } from "react";
-import { reduxForm, InjectedFormProps, Field, WrappedFieldProps } from "redux-form";
+import {
+  reduxForm,
+  InjectedFormProps,
+  Field,
+  WrappedFieldProps,
+} from "redux-form";
 
 const style = {
   img: {
     borderRadius: "100%",
   },
+  file: {
+    display: "none",
+  },
 };
 
 const RenderField: React.StatelessComponent<WrappedFieldProps> = ({
   input,
-}) => <input {...input} type="file" />;
+}) => (
+  <div>
+    <input {...input} style={style.file} type="file" />
+    <img style={style.img} src="http://placekitten.com/100/100" alt="profile" />
+  </div>
+);
 
 class ProfileImg extends Component<InjectedFormProps> {
   render() {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <Field name="file" component={RenderField}/>
-        <img
-          style={style.img}
-          src="http://placekitten.com/100/100"
-          alt="profile"
-        />
+        <Field name="file" component={RenderField} />
       </form>
     );
   }
