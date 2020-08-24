@@ -6,9 +6,9 @@ import * as postDuck from "../../ducks/Posts";
 import { ThunkDispatch } from "redux-thunk";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import services from '../../services'
+import services from "../../services";
 
-const { auth } = services   
+const { auth } = services;
 
 const style = {
   container: {
@@ -25,7 +25,7 @@ interface IProfileProps {
   fetchPosts: () => void;
   fetched: boolean;
   loading: boolean;
-  data: postDuck.IDataPosts;
+  data: postDuck.IPost[];
 }
 
 class Profile extends Component<IProfileProps> {
@@ -46,14 +46,26 @@ class Profile extends Component<IProfileProps> {
           <Button>Agregar</Button>
         </div>
         <div style={style.row}>
-          <Card><img src="http://placekitten.com/100/100" alt=""/></Card>
-          <Card><img src="http://placekitten.com/100/100" alt=""/></Card>
-          <Card><img src="http://placekitten.com/100/100" alt=""/></Card>
+          <Card>
+            <img src="http://placekitten.com/100/100" alt="" />
+          </Card>
+          <Card>
+            <img src="http://placekitten.com/100/100" alt="" />
+          </Card>
+          <Card>
+            <img src="http://placekitten.com/100/100" alt="" />
+          </Card>
         </div>
         <div style={style.row}>
-          <Card><img src="http://placekitten.com/100/100" alt=""/></Card>
-          <Card><img src="http://placekitten.com/100/100" alt=""/></Card>
-          <Card><img src="http://placekitten.com/100/100" alt=""/></Card>
+          <Card>
+            <img src="http://placekitten.com/100/100" alt="" />
+          </Card>
+          <Card>
+            <img src="http://placekitten.com/100/100" alt="" />
+          </Card>
+          <Card>
+            <img src="http://placekitten.com/100/100" alt="" />
+          </Card>
         </div>
       </div>
     );
@@ -61,13 +73,20 @@ class Profile extends Component<IProfileProps> {
 }
 
 const mapStateToProps = (state: any) => {
-  const { Posts: { data, fetched, fetching }, } = state;
+  const {
+    Posts: { data, fetched, fetching },
+  } = state;
   const loading = fetching || !fetched;
 
-  console.log(auth.currentUser && auth.currentUser.uid)
+  const filtered = Object.keys(data).reduce((acc, el) => {
+    if (data[el].userId !== (auth.currentUser && auth.currentUser.uid)) {
+      return acc;
+    }
+    return acc.concat(data[el]);
+  }, [] as postDuck.IPost[]);
 
   return {
-    data,
+    data: filtered,
     fetched,
     loading,
   };
