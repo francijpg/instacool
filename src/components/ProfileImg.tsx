@@ -4,6 +4,7 @@ import {
   InjectedFormProps,
   Field,
   WrappedFieldProps,
+  WrappedFieldInputProps,
 } from "redux-form";
 
 const style = {
@@ -15,11 +16,27 @@ const style = {
   },
 };
 
+const handleChange = (
+  input: WrappedFieldInputProps
+) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+  e.preventDefault();
+  const { onChange } = input;
+  const { files } = e.target;
+  if (files) {
+    await onChange(files[0]);
+  }
+};
+
 const RenderField: React.StatelessComponent<WrappedFieldProps> = ({
   input,
 }) => (
   <div>
-    <input {...input} style={style.file} type="file" id="profileImage"/>
+    <input
+      onChange={handleChange(input)}
+      style={style.file}
+      type="file"
+      id="profileImage"
+    />
     <label htmlFor="profileImage">
       <img
         style={style.img}
