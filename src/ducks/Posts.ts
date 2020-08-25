@@ -2,7 +2,6 @@ import { AnyAction, Dispatch } from "redux"
 import { IServices } from "../services"
 import { firestore } from 'firebase';
 import * as utils from '../utils';
-import { setProfileImage } from "./Users";
 
 // interfaces
 export interface IPost {
@@ -150,19 +149,4 @@ export const share = (id: string) =>
         imageURL,
       }
     } as IDataPosts))
-  }
-
-  export const handleProfileImageSubmit = (payload: {file: File}) => 
-  async (dispatch: Dispatch, getState: () => any, { auth, storage }: IServices) => {
-      if(!auth.currentUser){
-          return
-      }
-      const { uid } = auth.currentUser
-      const storageRef = storage.ref()
-      const response = await storageRef
-          .child(`profileImages`)
-          .child(`${uid}.jpg`)
-          .put(payload.file)
-      const url = await response.ref.getDownloadURL()
-      dispatch(setProfileImage(url))
   }
