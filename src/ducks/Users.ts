@@ -53,3 +53,18 @@ export const loadUserInitialData = () =>
     const url = await imageRef.getDownloadURL()
     dispatch(setProfileImage(url))
   }
+
+export const handleProfileImageSubmit = (payload: { file: File }) =>
+  async (dispatch: Dispatch, getState: () => any, { auth, storage }: IServices) => {
+    if (!auth.currentUser) {
+      return
+    }
+    const { uid } = auth.currentUser
+    const storageRef = storage.ref()
+    const response = await storageRef
+      .child(`profileImages`)
+      .child(`${uid}.jpg`)
+      .put(payload.file)
+    const url = await response.ref.getDownloadURL()
+    dispatch(setProfileImage(url))
+  }
