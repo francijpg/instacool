@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   reduxForm,
   InjectedFormProps,
@@ -8,7 +8,7 @@ import {
 } from "redux-form";
 
 interface IProfileImg{
-  submitProfileImg: () => void
+  submitProfileImage: () => void
 }
 
 const style = {
@@ -20,24 +20,22 @@ const style = {
   },
 };
 
-const handleChange = (submitProfileImg: () => void,
-  input: WrappedFieldInputProps
-) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+const handleChange = (submitProfileImage: () => void, input: WrappedFieldInputProps) => async (e: React.ChangeEvent<HTMLInputElement>) => {
   e.preventDefault();
   const { onChange } = input;
   const { files } = e.target;
   if (files) {
     await onChange(files[0]);
-    submitProfileImg()
+    submitProfileImage()
   }
 };
 
 const RenderField: React.StatelessComponent<WrappedFieldProps & IProfileImg> = ({
-  input, submitProfileImg,
+  input, submitProfileImage
 }) => (
   <div>
     <input
-      onChange={handleChange(submitProfileImg, input)}
+      onChange={handleChange(submitProfileImage, input)}
       style={style.file}
       type="file"
       id="profileImage"
@@ -52,17 +50,20 @@ const RenderField: React.StatelessComponent<WrappedFieldProps & IProfileImg> = (
   </div>
 );
 
-class ProfileImg extends Component<InjectedFormProps<{}, IProfileImg> & IProfileImg> {
+class ProfileImg extends React.Component<InjectedFormProps<{}, IProfileImg> & IProfileImg> {
   render() {
-    const { handleSubmit, submitProfileImg } = this.props;
+    const { handleSubmit, submitProfileImage } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <Field name="file" component={RenderField} submitProfileImg={submitProfileImg} />
+        <Field 
+          name="file" 
+          component={RenderField} 
+          submitProfileImage={submitProfileImage} />
       </form>
     );
   }
 }
 
-export default reduxForm<{},IProfileImg>({
+export default reduxForm<any, any>({
   form: "profileImg",
 })(ProfileImg);
