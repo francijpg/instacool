@@ -15,6 +15,8 @@ interface IProfileImg {
 const style = {
   img: {
     borderRadius: "100%",
+    height: '100px',
+    width: '100px',
   },
   file: {
     display: "none",
