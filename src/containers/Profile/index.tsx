@@ -7,7 +7,8 @@ import { ThunkDispatch } from "redux-thunk";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import services from "../../services";
-import { chunk } from 'lodash';
+import { chunk } from "lodash";
+import { submit } from "redux-form";
 
 const { auth } = services;
 
@@ -21,12 +22,13 @@ const style = {
     marginBottom: "10px",
   },
   img: {
-    width: '100px',
+    width: "100px",
   },
 };
 
 interface IProfileProps {
   fetchPosts: () => void;
+  submitProfileImg: () => void;
   fetched: boolean;
   loading: boolean;
   data: postDuck.IPost[][];
@@ -43,21 +45,24 @@ class Profile extends Component<IProfileProps> {
   }
 
   render() {
-    const { data } = this.props
-    console.log(data)
+    const { data, submitProfileImg } = this.props;
+    console.log(data);
     return (
       <div style={style.container}>
         <div style={style.row}>
-          <ProfileImg />
+          <ProfileImg submitProfileImg={submitProfileImg} />
           <Button>Agregar</Button>
         </div>
-        {data.map( (x, i) =>         
-          <div key={i} style={style.row}> 
-            {x.map(y => 
-            // eslint-disable-next-line jsx-a11y/alt-text
-            <Card key={y.imageURL}><img style={style.img} src={y.imageURL} /></Card>)} 
+        {data.map((x, i) => (
+          <div key={i} style={style.row}>
+            {x.map((y) => (
+              // eslint-disable-next-line jsx-a11y/alt-text
+              <Card key={y.imageURL}>
+                <img style={style.img} src={y.imageURL} />
+              </Card>
+            ))}
           </div>
-        )}
+        ))}
       </div>
     );
   }
@@ -77,12 +82,18 @@ const mapStateToProps = (state: any) => {
   }, [] as postDuck.IPost[]);
 
   return {
-    data: chunk (filtered, 3),
+    data: chunk(filtered, 3),
     fetched,
     loading,
   };
 };
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) =>
-  bindActionCreators(postDuck, dispatch);
+  bindActionCreators(
+    {
+      ...postDuck,
+      submitProfileImg: () => submit("profileImg"),
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
