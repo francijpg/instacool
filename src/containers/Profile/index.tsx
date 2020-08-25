@@ -28,6 +28,7 @@ const style = {
 
 interface IProfileProps {
   fetchPosts: () => void;
+  handleProfileImageSubmit: (a: { file: File }) => void;
   submitProfileImg: () => void;
   fetched: boolean;
   loading: boolean;
@@ -45,12 +46,12 @@ class Profile extends Component<IProfileProps> {
   }
 
   render() {
-    const { data, submitProfileImg } = this.props;
-    console.log(data);
+    const { data, submitProfileImg, handleProfileImageSubmit } = this.props;
+    // console.log(data);
     return (
       <div style={style.container}>
         <div style={style.row}>
-          <ProfileImg submitProfileImg={submitProfileImg} />
+          <ProfileImg onSubmit={handleProfileImageSubmit} submitProfileImg={submitProfileImg} />
           <Button>Agregar</Button>
         </div>
         {data.map((x, i) => (

@@ -4,7 +4,7 @@ import { firestore } from 'firebase';
 import * as utils from '../utils';
 
 // interfaces
-export interface IPost{
+export interface IPost {
   comment: string
   userId: string
   createdAt: firestore.Timestamp
@@ -141,7 +141,7 @@ export const share = (id: string) =>
     const ref = storage.ref(`posts/${postId}.jpg`)
     await ref.put(blob)
     const imageURL = await ref.getDownloadURL()
-    
+
     //Upload image again (from cliente)
     dispatch(add({
       [snap.id]: {
@@ -149,4 +149,9 @@ export const share = (id: string) =>
         imageURL,
       }
     } as IDataPosts))
+  }
+
+export const handleProfileImageSubmit = (payload: { file: File }) =>
+  async (dispatch: Dispatch, getState: () => any, { auth, storage }: IServices) => {
+    console.log(payload)
   }
