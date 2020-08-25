@@ -12,6 +12,7 @@ import services from "./services";
 
 interface IAppProps {
   history: History;
+  loadInitialData: () => void;
 }
 class App extends React.Component<IAppProps> {
   public state = {
@@ -22,6 +23,8 @@ class App extends React.Component<IAppProps> {
     const { auth } = services;
     auth.onAuthStateChanged((user) => {
       if (user) {
+        const { loadInitialData } = this.props;
+        loadInitialData();
         if (["/", "/register"].indexOf(window.location.pathname) > -1) {
           const { history } = this.props;
           history.push("/app/newsfeed");
