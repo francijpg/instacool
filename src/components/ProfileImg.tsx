@@ -7,8 +7,9 @@ import {
   WrappedFieldInputProps,
 } from "redux-form";
 
-interface IProfileImg{
-  submitProfileImage: () => void
+interface IProfileImg {
+  submitProfileImage: () => void;
+  profileImage: string;
 }
 
 const style = {
@@ -20,19 +21,22 @@ const style = {
   },
 };
 
-const handleChange = (submitProfileImage: () => void, input: WrappedFieldInputProps) => async (e: React.ChangeEvent<HTMLInputElement>) => {
+const handleChange = (
+  submitProfileImage: () => void,
+  input: WrappedFieldInputProps
+) => async (e: React.ChangeEvent<HTMLInputElement>) => {
   e.preventDefault();
   const { onChange } = input;
   const { files } = e.target;
   if (files) {
     await onChange(files[0]);
-    submitProfileImage()
+    submitProfileImage();
   }
 };
 
-const RenderField: React.StatelessComponent<WrappedFieldProps & IProfileImg> = ({
-  input, submitProfileImage
-}) => (
+const RenderField: React.StatelessComponent<
+  WrappedFieldProps & IProfileImg
+> = ({ input, submitProfileImage, profileImage }) => (
   <div>
     <input
       onChange={handleChange(submitProfileImage, input)}
@@ -43,22 +47,26 @@ const RenderField: React.StatelessComponent<WrappedFieldProps & IProfileImg> = (
     <label htmlFor="profileImage">
       <img
         style={style.img}
-        src="http://placekitten.com/100/100"
+        src={profileImage}
         alt="profile"
       />
     </label>
   </div>
 );
 
-class ProfileImg extends React.Component<InjectedFormProps<{}, IProfileImg> & IProfileImg> {
+class ProfileImg extends React.Component<
+  InjectedFormProps<{}, IProfileImg> & IProfileImg
+> {
   render() {
-    const { handleSubmit, submitProfileImage } = this.props;
+    const { handleSubmit, submitProfileImage, profileImage} = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <Field 
-          name="file" 
-          component={RenderField} 
-          submitProfileImage={submitProfileImage} />
+        <Field
+          name="file"
+          component={RenderField}
+          submitProfileImage={submitProfileImage}
+          profileImage={profileImage}
+        />
       </form>
     );
   }

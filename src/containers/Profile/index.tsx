@@ -33,6 +33,7 @@ export interface IProfileProps {
   fetched: boolean;
   loading: boolean;
   data: postDuck.IPost[][];
+  profileImage: string;
 }
 
 class Profile extends Component<IProfileProps> {
@@ -46,11 +47,17 @@ class Profile extends Component<IProfileProps> {
   }
 
   render() {
-    const { data, submitProfileImage, handleProfileImageSubmit } = this.props;
+    const {
+      data,
+      submitProfileImage,
+      handleProfileImageSubmit,
+      profileImage,
+    } = this.props;
     return (
       <div style={style.container}>
         <div style={style.row}>
           <ProfileImg
+            profileImage={profileImage}
             onSubmit={handleProfileImageSubmit}
             submitProfileImage={submitProfileImage}
           />
@@ -75,7 +82,11 @@ const mapStateToProps = (state: any) => {
   const {
     Posts: { data, fetched, fetching },
   } = state;
+  const {
+    Users: { profileImage: temPI },
+  } = state;
   const loading = fetching || !fetched;
+  const profileImage = temPI || "https://placekitten.com/100/100";
 
   const filtered = Object.keys(data).reduce((acc, el) => {
     if (data[el].userId !== (auth.currentUser && auth.currentUser.uid)) {
@@ -88,6 +99,7 @@ const mapStateToProps = (state: any) => {
     data: chunk(filtered, 3),
     fetched,
     loading,
+    profileImage,
   };
 };
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) =>
