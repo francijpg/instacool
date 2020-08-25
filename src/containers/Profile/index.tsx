@@ -26,10 +26,10 @@ const style = {
   },
 };
 
-interface IProfileProps {
+export interface IProfileProps {
   fetchPosts: () => void;
+  submitProfileImage: () => void;
   handleProfileImageSubmit: (a: { file: File }) => void;
-  submitProfileImg: () => void;
   fetched: boolean;
   loading: boolean;
   data: postDuck.IPost[][];
@@ -46,12 +46,14 @@ class Profile extends Component<IProfileProps> {
   }
 
   render() {
-    const { data, submitProfileImg, handleProfileImageSubmit } = this.props;
-    // console.log(data);
+    const { data, submitProfileImage, handleProfileImageSubmit } = this.props;
     return (
       <div style={style.container}>
         <div style={style.row}>
-          <ProfileImg onSubmit={handleProfileImageSubmit} submitProfileImg={submitProfileImg} />
+          <ProfileImg
+            onSubmit={handleProfileImageSubmit}
+            submitProfileImage={submitProfileImage}
+          />
           <Button>Agregar</Button>
         </div>
         {data.map((x, i) => (
@@ -59,7 +61,7 @@ class Profile extends Component<IProfileProps> {
             {x.map((y) => (
               // eslint-disable-next-line jsx-a11y/alt-text
               <Card key={y.imageURL}>
-                <img style={style.img} src={y.imageURL} />
+                <img style={style.img} src={y.imageURL} alt="" />
               </Card>
             ))}
           </div>
@@ -92,7 +94,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) =>
   bindActionCreators(
     {
       ...postDuck,
-      submitProfileImg: () => submit("profileImg"),
+      submitProfileImage: () => submit("profileImg"),
     },
     dispatch
   );
