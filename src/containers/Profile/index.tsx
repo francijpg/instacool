@@ -97,8 +97,18 @@ const mapStateToProps = (state: IState) => {
     return acc.concat(data[el]);
   }, [] as postsDuck.IPost[]);
 
+  const ordered = filtered.sort((a, b) => {
+    if(a.createdAt.toDate() < b.createdAt.toDate()){
+      return 1
+    }
+    if(a.createdAt.toDate() > b.createdAt.toDate()){
+      return -1
+    }
+    return 0
+  })
+
   return {
-    data: chunk(filtered, 3),
+    data: chunk(ordered, 3),
     fetched,
     loading,
     profileImage,
