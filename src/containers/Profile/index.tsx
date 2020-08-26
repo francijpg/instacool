@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import ProfileImg from "../../components/ProfileImg";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
-import * as postDuck from "../../ducks/Posts";
+import * as postsDuck from "../../ducks/Posts";
+import * as usersDuck from "../../ducks/Users";
 import { ThunkDispatch } from "redux-thunk";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import services from "../../services";
 import { chunk } from "lodash";
 import { submit } from "redux-form";
+import { IState } from "../../ducks";
 
 const { auth } = services;
 
@@ -32,7 +34,7 @@ export interface IProfileProps {
   handleProfileImageSubmit: (a: { file: File }) => void;
   fetched: boolean;
   loading: boolean;
-  data: postDuck.IPost[][];
+  data: postsDuck.IPost[][];
   profileImage: string;
 }
 
@@ -78,7 +80,7 @@ class Profile extends Component<IProfileProps> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IState) => {
   const {
     Posts: { data, fetched, fetching },
   } = state;
@@ -93,7 +95,7 @@ const mapStateToProps = (state: any) => {
       return acc;
     }
     return acc.concat(data[el]);
-  }, [] as postDuck.IPost[]);
+  }, [] as postsDuck.IPost[]);
 
   return {
     data: chunk(filtered, 3),
@@ -105,7 +107,8 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) =>
   bindActionCreators(
     {
-      ...postDuck,
+      ...postsDuck,
+      ...usersDuck,
       submitProfileImage: () => submit("profileImg"),
     },
     dispatch
