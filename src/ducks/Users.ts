@@ -1,5 +1,6 @@
 import { Dispatch, AnyAction } from "redux";
 import { IServices } from "../services";
+import { IState } from "./index";
 
 export interface ILogin {
   email: string
@@ -13,7 +14,7 @@ export const setProfileImage = (payload: string) => ({
   type: SET_PROFILE_IMAGE,
 })
 
-export default function reducer(state = {}, action: AnyAction) {
+export default function reducer(state = {}, action: any) {
   switch (action.type) {
     case SET_PROFILE_IMAGE: {
       return {
@@ -28,11 +29,11 @@ export default function reducer(state = {}, action: AnyAction) {
 }
 
 export const login = ({ email, password }: ILogin) =>
-  async (dispatch: Dispatch, getState: () => any, { auth }: IServices) =>
+  async (dispatch: Dispatch, getState: () => IState, { auth }: IServices) =>
     await auth.signInWithEmailAndPassword(email, password)
 
 export const register = ({ email, password }: ILogin) =>
-  async (dispatch: Dispatch, getState: () => any, { auth, db }: IServices) => {
+  async (dispatch: Dispatch, getState: () => IState, { auth, db }: IServices) => {
     const userCredential = await auth.createUserWithEmailAndPassword(email, password)
     const { user } = userCredential
     const id = user ? user.uid : undefined
@@ -41,7 +42,7 @@ export const register = ({ email, password }: ILogin) =>
   }
 
 export const loadUserInitialData = () =>
-  async (dispatch: Dispatch, getState: () => any, { auth, storage }: IServices) => {
+  async (dispatch: Dispatch, getState: () => IState, { auth, storage }: IServices) => {
     if (!auth.currentUser) {
       return
     }
@@ -55,7 +56,7 @@ export const loadUserInitialData = () =>
   }
 
 export const handleProfileImageSubmit = (payload: { file: File }) =>
-  async (dispatch: Dispatch, getState: () => any, { auth, storage }: IServices) => {
+  async (dispatch: Dispatch, getState: () => IState, { auth, storage }: IServices) => {
     if (!auth.currentUser) {
       return
     }
