@@ -74,6 +74,6 @@ class ProfileImg extends React.Component<
   }
 }
 
-export default reduxForm<any, any>({
+export default reduxForm<any, IProfileImg>({
   form: "profileImg",
 })(ProfileImg);
