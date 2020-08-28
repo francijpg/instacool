@@ -22,17 +22,16 @@ class App extends React.Component<IAppProps> {
   public componentDidMount() {
     const { auth } = services;
     auth.onAuthStateChanged((user) => {
+      const { history } = this.props
       if (user) {
         const { loadInitialData } = this.props;
         loadInitialData();
         if (["/", "/register"].indexOf(window.location.pathname) > -1) {
-          const { history } = this.props;
           history.push("/app/newsfeed");
         }
       } else {
         // eslint-disable-next-line
         if (/\app\/./.test(location.pathname)) {
-          const { history } = this.props;
           history.push("/");
         }
       }
