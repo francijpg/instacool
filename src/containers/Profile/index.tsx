@@ -28,7 +28,7 @@ const style = {
   },
 };
 
-export interface IProfileProps {
+interface IProfileProps {
   fetchPosts: () => void;
   submitProfileImage: () => void;
   handleProfileImageSubmit: (a: { file: File }) => void;
