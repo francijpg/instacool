@@ -14,7 +14,7 @@ export const setProfileImage = (payload: string) => ({
   type: SET_PROFILE_IMAGE,
 })
 
-export default function reducer(state = {}, action: any) {
+export default function reducer(state = {}, action: AnyAction) {
   switch (action.type) {
     case SET_PROFILE_IMAGE: {
       return {
@@ -42,7 +42,7 @@ export const register = ({ email, password }: ILogin) =>
   }
 
 export const loadUserInitialData = () =>
-  async (dispatch: Dispatch, getState: () => IState, { auth, storage }: IServices) => {
+  async (dispatch: Dispatch, getState: () => any, { auth, storage }: IServices) => {
     if (!auth.currentUser) {
       return
     }
