@@ -12,6 +12,7 @@ import thunk from "redux-thunk";
 import services from "./services";
 import { reducer as formReducer } from "redux-form";
 import { loadUserInitialData } from "./ducks/Users";
+
 const store = createStore(
   combineReducers({
     ...reducers,
@@ -19,6 +20,7 @@ const store = createStore(
   }),
   applyMiddleware(thunk.withExtraArgument(services))
 );
+
 const history = createBrowserHistory();
 const loadInitialData = () => store.dispatch(loadUserInitialData())
 
