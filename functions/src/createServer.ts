@@ -39,7 +39,7 @@ export default () => {
     }
   })
 
-  app.get("/posts/:postId/like", async (req: IRequest, res: any) => {
+  app.get("/api/posts/:postId/like", async (req: IRequest, res: any) => {
     const { uid } = req.user
     const { postId } = req.params
     const snaps = await db.collection('likes')
@@ -62,7 +62,7 @@ export default () => {
     res.sendStatus(204)
   })
 
-  app.get('/posts/:postId/share', async (req: IRequest, res: any) => {
+  app.get('/api/posts/:postId/share', async (req: IRequest, res: any) => {
     const { uid } = req.user
     const { postId } = req.params
     const snap = await db.collection('posts').doc(postId).get()
@@ -83,6 +83,21 @@ export default () => {
     res.send({ id: result.id })
   })
 
+  app.post('/api/posts/upload', async (req: IRequest, res: any) => {
+    const { uid } = req.user
+    const { comment } = JSON.parse(req.body)
+    if (!comment) {
+      res.status(422).send({ error: 'comentario no encontrado' })
+    }
+
+    const result = await db.collection('posts').add({
+      comment: comment,
+      userId: uid,
+      createdAt: new Date()
+    })
+
+    res.send({ id: result.id })
+  })
 
   return app
 }
