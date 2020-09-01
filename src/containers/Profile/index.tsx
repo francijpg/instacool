@@ -11,6 +11,7 @@ import services from "../../services";
 import { chunk } from "lodash";
 import { submit } from "redux-form";
 import { IState } from "../../ducks";
+import { Link } from "react-router-dom";
 
 const { auth } = services;
 
@@ -63,7 +64,9 @@ class Profile extends Component<IProfileProps> {
             onSubmit={handleProfileImageSubmit}
             submitProfileImage={submitProfileImage}
           />
-          <Button>Agregar</Button>
+          <Link to="/app/upload">
+            <Button> Agregar </Button>
+          </Link>
         </div>
         {data.map((x, i) => (
           <div key={i} style={style.row}>
@@ -98,14 +101,14 @@ const mapStateToProps = (state: IState) => {
   }, [] as postsDuck.IPost[]);
 
   const ordered = filtered.sort((a, b) => {
-    if(a.createdAt.toDate() < b.createdAt.toDate()){
-      return 1
+    if (a.createdAt.toDate() < b.createdAt.toDate()) {
+      return 1;
     }
-    if(a.createdAt.toDate() > b.createdAt.toDate()){
-      return -1
+    if (a.createdAt.toDate() > b.createdAt.toDate()) {
+      return -1;
     }
-    return 0
-  })
+    return 0;
+  });
 
   return {
     data: chunk(ordered, 3),
