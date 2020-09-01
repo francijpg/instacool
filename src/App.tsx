@@ -9,6 +9,7 @@ import NewsFeed from "./containers/NewsFeed";
 import Navbar from "./components/Navbar";
 import Profile from "./containers/Profile";
 import services from "./services";
+import UploadPost from "./containers/Profile/UploadPost";
 
 interface IAppProps {
   history: History;
@@ -22,7 +23,7 @@ class App extends React.Component<IAppProps> {
   public componentDidMount() {
     const { auth } = services;
     auth.onAuthStateChanged((user) => {
-      const { history } = this.props
+      const { history } = this.props;
       if (user) {
         const { loadInitialData } = this.props;
         loadInitialData();
@@ -53,6 +54,7 @@ class App extends React.Component<IAppProps> {
         <Route path="/app" component={Navbar} />
         <Route exact={true} path="/app/newsfeed" component={NewsFeed} />
         <Route exact={true} path="/app/profile" component={Profile} />
+        <Route exact={true} path="/app/upload" component={UploadPost} />
       </BrowserRouter>
     );
   }
