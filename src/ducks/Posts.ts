@@ -2,6 +2,7 @@ import { AnyAction, Dispatch } from "redux"
 import { IServices } from "../services"
 import { firestore } from 'firebase';
 import * as utils from '../utils';
+import { IState } from ".";
 
 // interfaces
 export interface IPost {
@@ -15,11 +16,18 @@ export interface IDataPosts {
   [key: string]: IPost
 }
 
+export interface IUploadPost {
+  file: File
+  comment: string
+}
+
 // action types
 const START = 'posts/fetch-start'
 const SUCCESS = 'posts/fetch-success'
 const ERROR = 'posts/fetch-error'
 const ADD = 'posts/add'
+const UPLOAD_START = 'posts/upload-start'
+const UPLOAD_SUCCESS = 'posts/upload-success'
 
 // action creators
 const fetchStart = () => ({
@@ -37,12 +45,22 @@ const add = (payload: IDataPosts) => ({
   payload,
   type: ADD,
 })
+const uploadStart = () => ({
+  type: UPLOAD_START
+})
+
+const uploadSuccess = (payload: IDataPosts) => ({
+  payload,
+  type: UPLOAD_SUCCESS,
+})
 
 // reducer initial state
 const initialState = {
   data: {},
   fetched: false,
   fetching: false,
+  uploaded: false,
+  uploading: false,
 }
 
 export default function reducer(state = initialState, action: AnyAction) {
@@ -73,6 +91,21 @@ export default function reducer(state = initialState, action: AnyAction) {
           ...action.payload,
         }
       }
+    case UPLOAD_START:
+      return {
+        ...state,
+        uploading: true
+      }
+    case UPLOAD_SUCCESS:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...action.payload,
+        },
+        uploaded: true,
+        uploading: false,
+      }
     default:
       return state
   }
@@ -80,7 +113,7 @@ export default function reducer(state = initialState, action: AnyAction) {
 
 // create first thunk
 export const fetchPosts = () =>
-  async (dispatch: Dispatch, getState: () => any, { db, storage }: IServices) => {
+  async (dispatch: Dispatch, getState: () => IState, { db, storage }: IServices) => {
     dispatch(fetchStart())
     try {
       const snaps = await db.collection('posts').get()
@@ -108,7 +141,7 @@ export const fetchPosts = () =>
   }
 
 export const like = (id: string) =>
-  async (dispatch: Dispatch, getState: () => any, { auth }: IServices) => {
+  async (dispatch: Dispatch, getState: () => IState, { auth }: IServices) => {
     if (!auth.currentUser) {
       return
     }
@@ -121,7 +154,7 @@ export const like = (id: string) =>
   }
 
 export const share = (id: string) =>
-  async (dispatch: Dispatch, getState: () => any, { auth, db, storage }: IServices) => {
+  async (dispatch: Dispatch, getState: () => IState, { auth, db, storage }: IServices) => {
     if (!auth.currentUser) {
       return
     }
@@ -149,4 +182,36 @@ export const share = (id: string) =>
         imageURL,
       }
     } as IDataPosts))
+  }
+
+export const uploadPost = (payload: IUploadPost) =>
+  async (dispatch: Dispatch, getState: () => IState, { auth, storage, db }: IServices) => {
+    if (!auth.currentUser || !payload.file || !payload.comment) {
+      return
+    }
+    dispatch(uploadStart())
+    const token = await auth.currentUser.getIdToken()
+    const result = await fetch(`/api/posts/upload`, {
+      body: JSON.stringify({ comment: payload.comment }),
+      headers: {
+        authorization: token
+      },
+      method: 'POST'
+    })
+
+    const { id: postId }: { id: string } = await result.json()
+    const storageRef = storage.ref()
+    const response = await storageRef
+      .child(`posts`)
+      .child(`${postId}.jpg`)
+      .put(payload.file)
+    const imageUrl = await response.ref.getDownloadURL()
+    const snap = await db.collection('posts').doc(postId).get()
+    dispatch(uploadSuccess({
+        [snap.id]: {
+          ...snap.data(),
+          imageUrl,
+        }
+      } as unknown as IDataPosts))
+
   }
