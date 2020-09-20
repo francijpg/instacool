@@ -9,9 +9,9 @@ instagram style social network using firebase services (authentication, storage,
 ### `To install the application locally from the root of the application:`
 - yarn install
 - cd functions
-- yarn install
+- npm install
 
 ### `To run the application locally from the root of the application:`
 - yarn start
 - cd functions
-- yarn serve
+- npm serve
